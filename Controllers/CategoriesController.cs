@@ -13,7 +13,7 @@ namespace EccommerceV3.Controllers
     {
         private readonly ecommerceDBContext _context;
 
-        public CategoriesController(ecommerceDBContext context)
+        private readonly ecommerceDBContext _context = new ecommerceDBContext();
         {
             _context = context;
         }
