@@ -11,12 +11,7 @@ namespace EccommerceV3.Controllers
 {
     public class OrdersDetailsController : Controller
     {
-        private readonly ecommerceDBContext _context;
-
-        public OrdersDetailsController(ecommerceDBContext context)
-        {
-            _context = context;
-        }
+        private readonly ecommerceDBContext _context = new ecommerceDBContext();
 
         // GET: OrdersDetails
         public async Task<IActionResult> Index()

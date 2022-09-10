@@ -1,4 +1,4 @@
-﻿@model IEnumerable<EccommerceV3.Model.EF.Product>
+﻿@model  IEnumerable<EccommerceV3.Model.EF.Product>
 
 @{
     ViewData["Title"] = "Index";
@@ -9,6 +9,19 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<form asp-controller="Products" asp-action="Index" method="get">
+    <p>
+        Title: <input type="text" name="SearchString" />
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+
+@*<select asp-for="MovieGenre" asp-items="Model.Genres">
+    <option value="">All</option>
+</select>
+
+        Title:
+<input type="text" asp-for="SearchString" />*@
 <table class="table">
     <thead>
         <tr>

@@ -14,11 +14,30 @@ namespace EccommerceV3.Controllers
         private readonly ecommerceDBContext _context = new ecommerceDBContext();
 
         // GET: Products
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string SearchString)
         {
-            var ecommerceDBContext = _context.Products.Include(p => p.Category);
-            return View(await ecommerceDBContext.ToListAsync());
+            var products = from m in _context.Products
+                           select m;
+            /*        IQueryable<string> genreQuery = from m in _context.Movie
+                                                    orderby m.Genre
+                                                    select m.Genre;*/
+            /*IQueryable<string> catQuery = (IQueryable<string>)(from c in _context.Products
+                                          orderby c.CategoryId
+                                          select c.CategoryId);*/
+
+            if (!String.IsNullOrEmpty(SearchString))
+            {
+                products = products.Where(s => s.ProductName!.Contains(SearchString));
+            }
+
+            return View(await products.ToListAsync());
         }
+        [HttpPost]
+        public string Index(string searchString, bool notUsed)
+        {
+            return "From [HttpPost]Index: filter on " + searchString;
+        }
+
 
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
