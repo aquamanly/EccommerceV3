@@ -11,12 +11,12 @@ namespace EccommerceV3.Controllers
 {
     public class OrdersController : Controller
     {
-        private readonly ecommerceDBContext _context;
+        private readonly ecommerceDBContext _context = new ecommerceDBContext();
 
-        public OrdersController(ecommerceDBContext context)
-        {
-            _context = context;
-        }
+        //public OrdersController(ecommerceDBContext context)
+        //{
+        //    _context = context;
+        //}
 
         // GET: Orders
         public async Task<IActionResult> Index()
