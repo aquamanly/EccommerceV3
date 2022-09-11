@@ -4,14 +4,20 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Cart</h1>
 
-<p>
+@*<p>
     <a asp-action="Create">Create New</a>
-</p>
+</p>*@
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Product)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductId)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.ProductQty)
             </th>
@@ -19,17 +25,24 @@
                 @Html.DisplayNameFor(model => model.ProductPrice)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Order)
+                @*@Html.DisplayNameFor(model => model.Order)*@
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product)
-            </th>
+            <th>Subtotal</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @{
+            decimal? total = 0;
+        }
+        @foreach (var item in Model) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product.ProductId)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ProductQty)
             </td>
@@ -37,10 +50,10 @@
                 @Html.DisplayFor(modelItem => item.ProductPrice)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Order.OrderId)
+                @*@Html.DisplayFor(modelItem => item.Order.OrderId)*@
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Product.ProductId)
+                @Html.DisplayFor(modelItem => item.Subtotal)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.OrderDetailsId">Edit</a> |
@@ -48,6 +61,16 @@
                 <a asp-action="Delete" asp-route-id="@item.OrderDetailsId">Delete</a>
             </td>
         </tr>
+        total = total + item.Subtotal;
 }
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th>Total:</th>
+            <th>$@total</th>
+            <th></th>
+        </tr>
     </tbody>
 </table>

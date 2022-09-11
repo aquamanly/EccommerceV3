@@ -11,12 +11,12 @@ namespace EccommerceV3.Controllers
 {
     public class CustomersController : Controller
     {
-        private readonly ecommerceDBContext _context;
+        private readonly ecommerceDBContext _context = new ecommerceDBContext();
 
-        public CustomersController(ecommerceDBContext context)
-        {
-            _context = context;
-        }
+        //public CustomersController(ecommerceDBContext context)
+        //{
+        //    _context = context;
+        //}
 
         // GET: Customers
         public async Task<IActionResult> Index()
