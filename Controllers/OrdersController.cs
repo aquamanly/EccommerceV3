@@ -32,7 +32,7 @@ namespace EccommerceV3.Controllers
             var cID = cLogin.FirstOrDefault();
 
             var ecommerceDBContext = _context.Orders.Where(s => s.CustomerId == cID.CustomerId).Include(o => o.Customer);
-            return View(await ecommerceDBContext.ToListAsync());
+            return View(await _context.Orders.ToListAsync());
         }
 
         // GET: Orders/Details/
