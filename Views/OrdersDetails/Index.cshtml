@@ -4,11 +4,12 @@
     ViewData["Title"] = "Index";
 }
 
+@{
+    decimal? total = 0;
+}
+
 <h1>Cart</h1>
 
-@*<p>
-    <a asp-action="Create">Create New</a>
-</p>*@
 <table class="table">
     <thead>
         <tr>
@@ -32,9 +33,7 @@
         </tr>
     </thead>
     <tbody>
-        @{
-            decimal? total = 0;
-        }
+        
         @foreach (var item in Model) {
         <tr>
             <td>
@@ -74,3 +73,7 @@
         </tr>
     </tbody>
 </table>
+
+<p>
+    <a asp-action="Create" asp-controller="Orders">Checkout</a>
+</p>
