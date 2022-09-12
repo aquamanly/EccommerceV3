@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EccommerceV3.Model.EF;
+
 namespace EccommerceV3.Controllers
-{
+{ 
     public class CustomersController : Controller
     {
         private readonly ecommerceDBContext _context;
