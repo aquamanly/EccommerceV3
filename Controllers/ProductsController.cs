@@ -14,21 +14,19 @@ namespace EccommerceV3.Controllers
         private readonly ecommerceDBContext _context = new ecommerceDBContext();
 
         // GET: Products
-        public async Task<IActionResult> Index(string SearchString)
+        public async Task<IActionResult> Index(int SearchString, int prodCat)
         {
             var products = from m in _context.Products
                            select m;
-            /*        IQueryable<string> genreQuery = from m in _context.Movie
-                                                    orderby m.Genre
-                                                    select m.Genre;*/
-            /*IQueryable<string> catQuery = (IQueryable<string>)(from c in _context.Products
+            IQueryable<int?> catQuery = from c in _context.Products
                                           orderby c.CategoryId
-                                          select c.CategoryId);*/
+                                          select c.CategoryId;
 
-            if (!String.IsNullOrEmpty(SearchString))
+            if (SearchString != 0)
             {
-                products = products.Where(s => s.ProductName!.Contains(SearchString));
+                products = products.Where(s => s.CategoryId == SearchString);
             }
+         
 
             return View(await products.ToListAsync());
         }
@@ -36,6 +34,16 @@ namespace EccommerceV3.Controllers
         public string Index(string searchString, bool notUsed)
         {
             return "From [HttpPost]Index: filter on " + searchString;
+        }
+
+        public async Task<IActionResult> Categories()
+        {
+            var products = from m in _context.Products
+                           select m;
+            
+
+
+            return View(await products.ToListAsync());
         }
 
 
