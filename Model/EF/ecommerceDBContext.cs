@@ -168,12 +168,12 @@ namespace EccommerceV3.Model.EF
                     .HasMaxLength(20)
                     .IsUnicode(false);
 
-                entity.Property(e => e.FirstName)
+                entity.Property(e => e.First_Name)
                     .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("First_Name");
 
-                entity.Property(e => e.LastName)
+                entity.Property(e => e.Last_Name)
                     .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("Last_Name");

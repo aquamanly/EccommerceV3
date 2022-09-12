@@ -70,7 +70,7 @@ namespace EccommerceV3.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CustomerId,FirstName,LastName,LoginId,Address,PostCode,City")] Customer customer)
+        public async Task<IActionResult> Create([Bind("CustomerId,First_Name,Last_Name,LoginId,Address,Postal_Code,City")] Customer customer)
         {
             if (ModelState.IsValid)
             {
@@ -106,7 +106,7 @@ namespace EccommerceV3.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CustomerId,FirstName,LastName,LoginId,Address,PostCode,City")] Customer customer)
+        public async Task<IActionResult> Edit(int id, [Bind("CustomerId,First_Name,Last_Name,LoginId,Address,Postal_Code,City")] Customer customer)
         {
             if (id != customer.CustomerId)
             {
