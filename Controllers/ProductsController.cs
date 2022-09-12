@@ -14,41 +14,14 @@ namespace EccommerceV3.Controllers
         private readonly ecommerceDBContext _context = new ecommerceDBContext();
 
         // GET: Products
-        public async Task<IActionResult> Index(int SearchString, int prodCat)
+        public async Task<IActionResult> Index()
         {
-            var products = from m in _context.Products
-                           select m;
-            IQueryable<int?> catQuery = from c in _context.Products
-                                          orderby c.CategoryId
-                                          select c.CategoryId;
-
-            if (SearchString != 0)
-            {
-                products = products.Where(s => s.CategoryId == SearchString);
-            }
-         
-
-            return View(await products.ToListAsync());
-        }
-        [HttpPost]
-        public string Index(string searchString, bool notUsed)
-        {
-            return "From [HttpPost]Index: filter on " + searchString;
+            var ecommerceDBContext = _context.Products.Include(p => p.Category);
+            return View(await ecommerceDBContext.ToListAsync());
         }
 
-        public async Task<IActionResult> Categories()
-        {
-            var products = from m in _context.Products
-                           select m;
-            
-
-
-            return View(await products.ToListAsync());
-        }
-
-
-        // GET: Products/Details/5
-        public async Task<IActionResult> Details(int? id)
+            // GET: Products/Details/5
+            public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Products == null)
             {
