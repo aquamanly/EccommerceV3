@@ -6,42 +6,11 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CategoryName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CategoryImg)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CategoryDesc)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CategoryName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CategoryImg)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CategoryDesc)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.CategoryId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CategoryId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CategoryId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+
+<a href="https://localhost:7136/Products?SearchString=101">Jerseys</a></br>
+<a href="https://localhost:7136/Products?SearchString=102">Hats</a></br>
+<a href="https://localhost:7136/Products?SearchString=103">Home and Office</a></br>
+<a href="https://localhost:7136/Products?SearchString=104">Hoodies</a></br>
+<a href="https://localhost:7136/Products?SearchString=105">Sweatshirts</a>
+

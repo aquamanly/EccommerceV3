@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EccommerceV3.Model.EF;
+using Microsoft.Data.SqlClient;
 
 namespace EccommerceV3.Controllers
 {
@@ -25,6 +26,19 @@ namespace EccommerceV3.Controllers
                           View(await _context.Categories.ToListAsync()) :
                           Problem("Entity set 'ecommerceDBContext.Categories'  is null.");
         }
+        /*public void Withdraw(int uNo, double amount)
+        {
+            SqlConnection con = new SqlConnection("server=LAPTOP-4R128UQE; database=BankingProject1; integrated security=true;");
+            SqlCommand cmd = new SqlCommand("update UserInfo set uBalance = (uBalance - @amount) where uNo = @uNo ", con);
+
+            cmd.Parameters.AddWithValue("@amount", amount);
+            cmd.Parameters.AddWithValue("@uNo", uNo);
+
+            con.Open();
+            cmd.ExecuteNonQuery();
+            con.Close();
+
+        }*/
 
         // GET: Categories/Details/5
         public async Task<IActionResult> Details(int? id)

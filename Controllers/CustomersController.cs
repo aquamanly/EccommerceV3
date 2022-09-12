@@ -10,8 +10,10 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
 namespace EccommerceV3.Controllers
+
 {
     [Authorize]
+
     public class CustomersController : Controller
     {
         private readonly ecommerceDBContext _context = new ecommerceDBContext();

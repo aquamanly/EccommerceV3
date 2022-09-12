@@ -20,8 +20,8 @@ namespace EccommerceV3.Controllers
             return View(await ecommerceDBContext.ToListAsync());
         }
 
-        // GET: Products/Details/5
-        public async Task<IActionResult> Details(int? id)
+            // GET: Products/Details/5
+            public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Products == null)
             {
