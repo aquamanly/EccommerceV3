@@ -26,6 +26,7 @@ namespace EccommerceV3.Controllers
         // GET: Orders
         public async Task<IActionResult> Index()
         {
+            // matches customer id to aspnetusers id
             var rawData = (from s in _context.Customers select s).ToList();
             var cLogin = from s in rawData select s;
             cLogin = cLogin.Where(s => s.LoginId.Contains(this.User.FindFirstValue(ClaimTypes.NameIdentifier)));
@@ -70,6 +71,26 @@ namespace EccommerceV3.Controllers
         {
             if (ModelState.IsValid)
             {
+                // matches customer id to aspnetusers id
+                var rawData = (from s in _context.Customers select s).ToList();
+                var cLogin = from s in rawData select s;
+                cLogin = cLogin.Where(s => s.LoginId.Contains(this.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                var cID = cLogin.FirstOrDefault();
+                // sets default values
+                order.CustomerId = cID.CustomerId;
+                order.OrderDate = DateTime.Now;
+                order.OrderNo = 0;
+                order.OrderTotal = 0;
+
+                //var rawData2 = (from s in _context.OrdersDetails select s).ToList();
+                //var oDetails = from s in rawData2 select s;
+                //oDetails = oDetails.Where(s => s.OrderId.Equals(order.OrderId));
+                //decimal? total = 0;
+                //foreach (var item in oDetails) {
+                //    total += item.Subtotal;
+                //}
+                //order.OrderTotal = total;
+
                 _context.Add(order);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
