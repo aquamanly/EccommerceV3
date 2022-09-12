@@ -1,4 +1,4 @@
-﻿@model  IEnumerable<EccommerceV3.Model.EF.Product>
+﻿@model IEnumerable<EccommerceV3.Model.EF.Product>
 
 @{
     ViewData["Title"] = "Index";
@@ -9,58 +9,131 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<!--
+<form asp-controller="Products" asp-action="Index" method="get">
+    <p>
+        Title: <input type="text" name="SearchString" />
+        <input type="submit" value="Filter" />
+    </p>
+</form>-->
+@*<div class="container filtering">
+    <div class="filter-cat row">
+        <div class="col col-md-3 col-xs-6">
+            <select class="form-control">
+                <option value="cat-all">Show all</option>
+                <option value="cat-red">Red</option>
+                <option value="cat-blue">Blue</option>
+                <option value="cat-green">Green</option>
+            </select>
+        </div>
+    </div>*@
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ProductName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProductDesc)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Image)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Stock)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductDesc)
-            </td>
-            <td>
-                <img src="@Html.DisplayFor(modelItem => item.Image)" />
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Stock)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.CategoryId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ProductId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+@*<select asp-for="MovieGenre" asp-items="Model.Genres">
+    <option value="">All</option>
+</select>
+
+        Title:
+<input type="text" asp-for="SearchString" />*@
+
+
+<section class="py-5 bg-light">
+    <div class="container px-4 px-lg-5 mt-5">
+        <h2 class="fw-bolder mb-4">Shop</h2>
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+
+            @foreach (var item in Model)
+            {
+                <div class="col mb-5">
+                    <div class="card h-100">
+                        <!-- Product image-->
+                        <img class="card-img-top" src="@Html.DisplayFor(modelItem => item.Image)" alt="..." />
+                        <!-- Product details-->
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <!-- Product name-->
+                                <h5 class="fw-bolder">@Html.DisplayFor(modelItem => item.ProductName)</h5>
+                                <!-- Product price-->
+                                $ @Html.DisplayFor(modelItem => item.Price)
+                            </div>
+                        </div>
+                        <!-- Product actions-->
+                        <div class="card-footer p-2 pt-0 border-top-0 bg-transparent">
+                            <div class="text-center"><a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a></div>
+                        </div>
+                        <div class="card-footer p-2 pt-0 border-top-0 bg-transparent">
+                            <div class="text-center"><a asp-action="Details" asp-route-id="@item.ProductId">Details</a> </div>
+                        </div>
+                        <div class="card-footer p-2 pt-0 border-top-0 bg-transparent">
+                            <div class="text-center"><a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a></div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</section>
+@*<script>
+        $(document).ready(function () {
+            console.log(1);
+            $("#myInput").on("keyup", function () {
+                console.log(Int32);
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function () {
+                    console.log(3);
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>*@
+
+<div id="container"></div>
+
+<script>
+    function getStuff() {
+        fetch("https://localhost:7136/api/ProductsApi")
+            .then(function (response) {
+                return response.json()
+            })
+            .then(function (response) {
+                console.log(response)
+            }
+            );
+    }
+
+    getStuff();
+
+    let shop_list = [];
+    const container = document.getElementById("container");
+    fetch("https://localhost:7136/api/ProductsApi")
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error(response.statusText);
+            }
+        })
+        .then(data => {
+            shop_list = data;
+            for (let x = 0; x < shop_list.length; x++) {
+                //console.log(shop_list[x]);
+                let obj = JSON.stringify(shop_list[x])
+                // console.log(obj);
+                const myObj = JSON.parse(obj);
+                //console.log(myObj);
+                for (let x in myObj) {
+                    console.log(myObj[x]);
+                }
+            }
+        });
+
+        //console.log(renderUsers());
+
+    /* function getSeatsInfo() {
+         fetch("https://localhost:7012/api/SeatsAPI")
+         .then(function (response) {
+             return response.json()
+         }).then(function (response) {
+             console.log(response);*/
+
+</script>
