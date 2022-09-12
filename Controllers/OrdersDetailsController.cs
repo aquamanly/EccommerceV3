@@ -26,10 +26,9 @@ namespace EccommerceV3.Controllers
         public async Task<IActionResult> Index()
         {
             // finds customer id from aspnet users
-            var rawData = (from s in _context.Customers select s).ToList();
-            var cLogin = from s in rawData select s;
-            cLogin = cLogin.Where(s => s.LoginId.Contains(this.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-            var cID = cLogin.FirstOrDefault();
+            var customer = from c in _context.Customers select c;
+            customer = customer.Where(s => s.LoginId.Contains(this.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            var cID = customer.FirstOrDefault();
 
             // matches customer id to same one in orders table
             var rawData2 = (from s in _context.Orders select s).ToList();
