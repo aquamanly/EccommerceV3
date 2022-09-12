@@ -6,9 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EccommerceV3.Model.EF;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace EccommerceV3.Controllers
 {
+    [Authorize]
     public class OrdersController : Controller
     {
         private readonly ecommerceDBContext _context = new ecommerceDBContext();

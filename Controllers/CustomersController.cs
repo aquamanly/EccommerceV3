@@ -6,9 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EccommerceV3.Model.EF;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace EccommerceV3.Controllers
 {
+    [Authorize]
     public class CustomersController : Controller
     {
         private readonly ecommerceDBContext _context = new ecommerceDBContext();
@@ -21,9 +24,19 @@ namespace EccommerceV3.Controllers
         // GET: Customers
         public async Task<IActionResult> Index()
         {
-              return _context.Customers != null ? 
-                          View(await _context.Customers.ToListAsync()) :
-                          Problem("Entity set 'ecommerceDBContext.Customers'  is null.");
+            var customer = from c in _context.Customers select c;
+
+            customer = customer.Where(s => s.LoginId.Contains(this.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+
+            if (customer == null) {
+                Problem("Please fill out your profile");
+            }
+            
+            return View(await customer.ToListAsync());
+
+            //return _context.Customers != null ? 
+            //            View(await _context.Customers.ToListAsync()) :
+            //            Problem("Entity set 'ecommerceDBContext.Customers'  is null.");
         }
 
         // GET: Customers/Details/5
@@ -59,6 +72,10 @@ namespace EccommerceV3.Controllers
         {
             if (ModelState.IsValid)
             {
+                // sets login Id to whatever id was used to log in
+                var userID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                customer.LoginId = userID;
+
                 _context.Add(customer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
