@@ -27,7 +27,6 @@ namespace EccommerceV3.Controllers
         public async Task<IActionResult> Index()
         {
             var customer = from c in _context.Customers select c;
-
             customer = customer.Where(s => s.LoginId.Contains(this.User.FindFirstValue(ClaimTypes.NameIdentifier)));
 
             if (customer == null) {
