@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EccommerceV3.Model.EF;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace EccommerceV3.Controllers
 {
@@ -23,8 +24,23 @@ namespace EccommerceV3.Controllers
         // GET: OrdersDetails
         public async Task<IActionResult> Index()
         {
-            var ecommerceDBContext = _context.OrdersDetails.Include(o => o.Order).Include(o => o.Product);
-            return View(await ecommerceDBContext.ToListAsync());
+            // finds customer id from aspnet users
+            var rawData = (from s in _context.Customers select s).ToList();
+            var cLogin = from s in rawData select s;
+            cLogin = cLogin.Where(s => s.LoginId.Contains(this.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            var cID = cLogin.FirstOrDefault();
+
+            // matches customer id to same one in orders table
+            var rawData2 = (from s in _context.Orders select s).ToList();
+            var orders = from s in rawData2 select s;
+            orders = orders.Where(s => s.CustomerId == cID.CustomerId);
+            var lastord = orders.LastOrDefault();
+            
+            // matches order id to display cart with same order number, will only display last order Id
+            var recent_order = _context.OrdersDetails.Where(s => s.OrderId == lastord.OrderId).Include(o => o.Order).Include(o => o.Product);
+
+            //var ecommerceDBContext = _context.OrdersDetails.Include(o => o.Order).Include(o => o.Product);
+            return View(await recent_order.ToListAsync());
         }
 
         // GET: OrdersDetails/Details/5
