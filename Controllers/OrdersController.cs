@@ -32,8 +32,19 @@ namespace EccommerceV3.Controllers
             cLogin = cLogin.Where(s => s.LoginId.Contains(this.User.FindFirstValue(ClaimTypes.NameIdentifier)));
             var cID = cLogin.FirstOrDefault();
 
+            var rawData2 = (from s in _context.Orders select s).ToList();
+            var orders = from s in rawData2 select s;
+            orders = orders.Where(s => s.CustomerId == cID.CustomerId);
+            var lastord = orders.LastOrDefault();
+            
+            int orderid = lastord.OrderId;
+
+            foreach (var item in _context.OrdersDetails.Where(s => s.OrderId == orderid)) {
+                lastord.OrderTotal += item.Subtotal;
+            }
+
             var ecommerceDBContext = _context.Orders.Where(s => s.CustomerId == cID.CustomerId).Include(o => o.Customer);
-            return View(await _context.Orders.ToListAsync());
+            return View(await ecommerceDBContext.ToListAsync());
         }
 
         // GET: Orders/Details/
