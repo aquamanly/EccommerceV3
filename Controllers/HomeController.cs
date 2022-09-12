@@ -13,6 +13,12 @@ namespace EccommerceV3.Controllers
         {
             _logger = logger;
         }
+        public IActionResult ProductsPartial() =>
+            new PartialViewResult
+            {
+                ViewName = "_Products",
+                ViewData = ViewData,
+            };
 
         public IActionResult Index()
         {
