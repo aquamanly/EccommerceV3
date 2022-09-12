@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using EccommerceV3.Model.EF;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Razor.Language.Extensions;
 
 namespace EccommerceV3.Controllers
 {
@@ -24,11 +25,16 @@ namespace EccommerceV3.Controllers
         // GET: Orders
         public async Task<IActionResult> Index()
         {
-            var ecommerceDBContext = _context.Orders.Include(o => o.Customer);
+            var rawData = (from s in _context.Customers select s).ToList();
+            var cLogin = from s in rawData select s;
+            cLogin = cLogin.Where(s => s.LoginId.Contains(this.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            var cID = cLogin.FirstOrDefault();
+
+            var ecommerceDBContext = _context.Orders.Where(s => s.CustomerId == cID.CustomerId).Include(o => o.Customer);
             return View(await ecommerceDBContext.ToListAsync());
         }
 
-        // GET: Orders/Details/5
+        // GET: Orders/Details/
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Orders == null)
