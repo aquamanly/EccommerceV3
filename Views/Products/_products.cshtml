@@ -1,0 +1,38 @@
+﻿@model IEnumerable<EccommerceV3.Model.EF.Product>
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<h1>Look, it works mom!</h1>
+
+    @foreach (var item in Model)
+    
+{
+    
+
+    <div class="col mb-5">
+            <div class="card h-100">
+                <!-- Product image-->
+                <img class="card-img-top" src="@Html.DisplayFor(modelItem =>  item.Image)" alt="..." />
+                <!-- Product details-->
+                <div class="card-body p-4">
+                    <div class="text-center">
+                        <!-- Product name-->
+                        <h5 class="fw-bolder">@Html.DisplayFor(modelItem => item.ProductName)</h5>
+                        <!-- Product price-->
+                        $ @Html.DisplayFor(modelItem => item.Price)
+                    </div>
+                </div>
+                <!-- Product actions-->
+                <div class="card-footer p-2 pt-0 border-top-0 bg-transparent">
+                    <div class="text-center"><a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a></div>
+                </div>
+                <div class="card-footer p-2 pt-0 border-top-0 bg-transparent">
+                    <div class="text-center"><a asp-action="Details" asp-route-id="@item.ProductId">Details</a> </div>
+                </div>
+                <div class="card-footer p-2 pt-0 border-top-0 bg-transparent">
+                    <div class="text-center"><a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a></div>
+                </div>
+            </div>
+    </div>}
