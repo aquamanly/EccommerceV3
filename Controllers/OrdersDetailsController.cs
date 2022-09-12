@@ -35,9 +35,13 @@ namespace EccommerceV3.Controllers
             var orders = from s in rawData2 select s;
             orders = orders.Where(s => s.CustomerId == cID.CustomerId);
             var lastord = orders.LastOrDefault();
-            
-            // matches order id to display cart with same order number, will only display last order Id
-            var recent_order = _context.OrdersDetails.Where(s => s.OrderId == lastord.OrderId).Include(o => o.Order).Include(o => o.Product);
+
+            var recent_order = _context.OrdersDetails.Where(s => s.OrderId == 0).Include(o => o.Order).Include(o => o.Product);
+
+            if (lastord != null) {
+                // matches order id to display cart with same order number, will only display last order Id
+                recent_order = _context.OrdersDetails.Where(s => s.OrderId == lastord.OrderId).Include(o => o.Order).Include(o => o.Product);
+            }
 
             //var ecommerceDBContext = _context.OrdersDetails.Include(o => o.Order).Include(o => o.Product);
             return View(await recent_order.ToListAsync());

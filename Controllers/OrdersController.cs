@@ -30,19 +30,39 @@ namespace EccommerceV3.Controllers
             var customer = from c in _context.Customers select c;
             customer = customer.Where(s => s.LoginId.Contains(this.User.FindFirstValue(ClaimTypes.NameIdentifier)));
             var cID = customer.FirstOrDefault();
-
+            
+            // matches customer id to same one in orders table
             var rawData2 = (from s in _context.Orders select s).ToList();
             var orders = from s in rawData2 select s;
             orders = orders.Where(s => s.CustomerId == cID.CustomerId);
             var lastord = orders.LastOrDefault();
-            
-            int orderid = lastord.OrderId;
 
-            foreach (var item in _context.OrdersDetails.Where(s => s.OrderId == orderid)) {
-                lastord.OrderTotal += item.Subtotal;
+            if (lastord != null) {
+                //int orderid = lastord.OrderId;
+                lastord.OrderTotal = 0;
+
+                foreach (var item in _context.OrdersDetails.Where(s => s.OrderId == lastord.OrderId)) {
+                    lastord.OrderTotal += item.Subtotal;
+                }
             }
 
             var ecommerceDBContext = _context.Orders.Where(s => s.CustomerId == cID.CustomerId).Include(o => o.Customer);
+
+            if (ModelState.IsValid) {
+                try {
+                    if (lastord != null) {
+                        _context.Update(lastord);
+                        await _context.SaveChangesAsync();
+                    }
+                }
+                catch (DbUpdateConcurrencyException) {
+                        throw;
+                }
+                //return RedirectToAction(nameof(Create));
+            }
+            if (lastord != null) {
+                ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerId", lastord.CustomerId);
+            }
             return View(await ecommerceDBContext.ToListAsync());
         }
 
@@ -82,10 +102,10 @@ namespace EccommerceV3.Controllers
             if (ModelState.IsValid)
             {
                 // matches customer id to aspnetusers id
-                var rawData = (from s in _context.Customers select s).ToList();
-                var cLogin = from s in rawData select s;
-                cLogin = cLogin.Where(s => s.LoginId.Contains(this.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-                var cID = cLogin.FirstOrDefault();
+                var customer = from c in _context.Customers select c;
+                customer = customer.Where(s => s.LoginId.Contains(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                var cID = customer.FirstOrDefault();
+
                 // sets default values
                 order.CustomerId = cID.CustomerId;
                 order.OrderDate = DateTime.Now;
