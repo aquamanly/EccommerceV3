@@ -1,16 +1,60 @@
 ﻿@model IEnumerable<EccommerceV3.Model.EF.Category>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "The Shop Categories";
 }
 
-<h1>Index</h1>
+<h1>Categories</h1>
+
+<div class="container" style="display:inline-flex;">
+    <div class="container categories">
+        <a href="https://localhost:7136/Products?SearchString=102">
+            <img src="https://i.ibb.co/y5WBTK3/ravens-Hat.jpg" alt="Notebook" style="width:100%;">
+        </a>
+        <div class="content">
+            <h1>Hats</h1>
+            <p>Represent your team in the spirit of the season</p>
+        </div>
+    </div>
+
+    <div class="container categories">
+
+        <a href="https://localhost:7136/Products?SearchString=101">
+            <img src="https://i.ibb.co/6N1QVfD/ravens-Jersey.webp" alt="Notebook" style="width:100%;">
+        </a>
+        <div class="content">
+            <h1>Jerseys</h1>
+            <p>Represent your team in the spirit of the season</p>
+        </div>
+    </div>
+</div>
+
+<div class="container" style="display:inline-flex;">
+    <div class="container categories">
+        <a href="https://localhost:7136/Products?SearchString=105"> <img src="https://i.ibb.co/F8Z54z8/sweatshirt.jpg" alt="Notebook" style="width:100%;"></a>
+        <div class="content">
+            <h1>Sweatshirts!</h1>
+            <p>Represent your team in the spirit of the season</p>
+        </div>
+    </div>
+
+    <div class="container categories">
+        <a href="https://localhost:7136/Products?SearchString=104"><img src="https://i.ibb.co/wW31KRg/hoodies.jpg" alt="Notebook" style="width:100%;"></a>
+        <div class="content">
+            <h1>Hoodies</h1>
+            <p>Represent your team in the spirit of the season</p>
+        </div>
+    </div>
+</div>
 
 
+<div class="container" style="display:inline-flex;">
+    <div class="container categories">
+        <a href="https://localhost:7136/Products?SearchString=103"><img src="https://i.ibb.co/tcLMSTn/office-Supplies.jpg" alt="Notebook" style="width:100%;"></a>
+        <div class="content">
+            <h1>Office Supplies</h1>
+            <p>Represent your team in the spirit of the season</p>
+        </div>
+    </div>
 
-<a href="https://localhost:7136/Products?SearchString=101">Jerseys</a></br>
-<a href="https://localhost:7136/Products?SearchString=102">Hats</a></br>
-<a href="https://localhost:7136/Products?SearchString=103">Home and Office</a></br>
-<a href="https://localhost:7136/Products?SearchString=104">Hoodies</a></br>
-<a href="https://localhost:7136/Products?SearchString=105">Sweatshirts</a>
-
+</div>
