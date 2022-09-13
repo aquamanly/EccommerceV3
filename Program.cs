@@ -13,7 +13,11 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddAuthentication().AddGoogle(googleOptions =>
+{
+    googleOptions.ClientId = "516166470014-6l9k9c664vu9l431ajk8mt30cbh00672.apps.googleusercontent.com";
+    googleOptions.ClientSecret = "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";
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
